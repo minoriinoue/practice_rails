@@ -1,0 +1,24 @@
+<h2><%= @user_name %>'s Favorites</h2>
+<% if @favorites.count != 0 %>
+<table>
+  <thead>
+    <th>Comment</th><th>Thread</th><th>Name</th>
+  </thead>
+  <tbody>
+  <% @favorites.each do |favorite| %>
+  <tr>
+    <td><%= favorite.comment %></td>
+    <td><%= link_to favorite.my_thread.title, thread_comments_path(thread_id: favorite.my_thread.id) %></td>
+    <td><%= link_to favorite.user.name, user_path(favorite.user.id) %></td>
+    <% if (current_user.name == @user_name) %>
+      <td><%= link_to 'Unfav', favorite_path(id: favorite.favorite.find_by(user_id: params[:user_id]).id, user_id: params[:user_id], render_to: 'favorites/index'), method: :delete %></td>
+    <% end %>
+  </tr>
+  <% end %>
+  </tbody>
+</table>
+<% else %>
+  <p>No Favs</p>
+<% end %>
+<% link_name = 'Go back to ' + @user_name + ' page' %>
+<p><%= link_to link_name, user_path(params[:user_id]) %></p>

@@ -1,0 +1,14 @@
+<h2><%= @page_title %></h2>
+
+<% if @users.count != 0 %>
+  <% @users.each do |user| %>
+    <%= link_to user.name, user_path(user.id) %><br />
+  <% end %>
+<% else %>
+  <% if params[:status] == 'followed' %>
+    <p>No Followers.</p>
+  <% else %>
+    <p>Following no people.</p>
+  <% end %>
+<% end %>
+<p><%= link_to 'Go back', user_path(params[:user_id]) %></p>

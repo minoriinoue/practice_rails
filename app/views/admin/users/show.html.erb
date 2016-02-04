@@ -1,0 +1,15 @@
+<p>Admin page</p>
+<h2>Name: <%= @user.name %></h2>
+
+<% if @user.avatar.url.nil? %>
+  <p>No profile photo</p>
+<% else %>
+  <%= image_tag(@user.avatar.url, size: '150x150') %>
+<% end %>
+
+<p>Follower: <%=@followee_number%></p>
+<p>Following: <%=@following_number%></p>
+<%= link_to 'Delete this user', admin_user_path(id: @user.id), method: :delete, data: {confirm: 'Are you sure?'} %><br />
+
+<p><%= link_to 'Go to User List', admin_users_path %></p>
+<p><%= link_to 'Go to Thread List', admin_threads_path %></p>

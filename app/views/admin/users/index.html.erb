@@ -1,0 +1,17 @@
+<p>Admin page</p>
+<h2>User List</h2>
+<table>
+  <thead>
+    <th>User Name</th><th>Account Created</th>
+  </thead>
+  <tbody>
+    <% @users.each do |user| %>
+    <tr>
+    <td><%= link_to user.name, admin_user_path(user.id) %></td>
+    <td><%= user.created_at %></td>
+    <td><%= link_to 'Delete', admin_user_path(user.id), method: :delete, data: {confirm: 'Are you sure?'} %></td>
+    </tr>
+    <% end %>
+  </tbody>
+</table>
+<p><%= link_to 'Go back to Thread List', admin_threads_path %></p>

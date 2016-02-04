@@ -1,0 +1,36 @@
+<!-- Control the thread view by params[:status]. When params[:status]
+exits, only threads the user follows will appear. There is only one :status
+parameter, 'following', in this file. -->
+<% if !params[:status].present? %>
+  <h2>Threads</h2>
+  <%= link_to 'Create New Thread', new_thread_path %><br \>
+  <%= link_to 'Show Only Following User\'s Thread', threads_path(status: 'following')%>
+<% else %>
+  <h1>Your Following Threads</h1>
+  <%= link_to 'Show All User\'s Thread', threads_path %>
+<% end %>
+
+<% if @threads.count != 0  %>
+<table class="table table-hover">
+  <thead>
+    <th>Title</th><th>Description</th><th>Owner</th><th>Last Update</th><th></th><th></th><th></th>
+  </thead>
+  <tbody>
+    <% @threads.each do |thread| %>
+    <tr>
+      <td><%= thread.title %></td>
+      <td><%= thread.description%></td>
+      <td><%= link_to thread.user.name, user_path(thread.user_id) %></td>
+      <td><%= thread.updated_at %></td>
+      <td><%= link_to 'Comments', thread_comments_path(thread.id) %></td>
+      <% if thread.user_id == current_user.id %>
+        <td><%= link_to 'Edit', edit_thread_path(thread.id) %></td>
+        <td><%= link_to 'Delete', thread_path(thread.id), method: :delete, data: {confirm: 'Are you sure?'}%></td>
+      <% end %>
+    </tr>
+    <% end %>
+  </tbody>
+</table>
+<% else %>
+  <p>No threads for now</p>
+<% end %>

@@ -1,0 +1,19 @@
+<h2>Edit thread</h2>
+
+<%= form_for(@thread, url: thread_path(@thread.id), method: 'PATCH') do |f| %>
+  <%= f.hidden_field :my_thread_id, value: @thread.id %>
+  <div class="field">
+  <%= f.label :title %>
+  <%= f.text_field :title, autofocus: true %>
+  </div>
+
+  <div class="field">
+  <%= f.label :description %>
+  <%= f.text_area(:description, title: "Thread description", size: "24x6") %>
+  </div>
+
+  <div class="action">
+  <%= f.submit "Update Thread"%>
+  </div>
+<% end %>
+<p><%= link_to 'Go back to Thread List', threads_path %></p>

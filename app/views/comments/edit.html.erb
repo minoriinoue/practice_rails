@@ -1,0 +1,16 @@
+<h2>Edit comment</h2>
+
+<%= form_for(@comment, url: thread_comment_path(thread_id: params[:thread_id], id: @comment.id), method: 'PATCH') do |f| %>
+  <%= f.hidden_field :my_thread_id, value: params[:thread_id] %>
+  <%= f.hidden_field :original_comment, value: @comment.comment %>
+  <%= f.hidden_field :id, value: @comment.id %>
+  <div class="field">
+    <%= f.label :comment %><br />
+    <%= f.text_field :comment, autofocus: true %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit "Update Comment"%>
+  </div>
+<% end %>
+<p><%= link_to 'Go back to Comments', thread_comments_path(thread_id: params[:thread_id]) %></p>

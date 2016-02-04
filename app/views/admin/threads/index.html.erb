@@ -1,0 +1,28 @@
+<p>Admin page</p>
+<p><%= link_to 'User List', admin_users_path %></p>
+<h2>Threads</h2>
+<% if @message.present? %>
+    <p><%= @message %></p>
+<% end %>
+
+<% if @threads.count != 0  %>
+  <table>
+    <thead>
+      <th>Title</th><th>Description</th><th>Owner</th><th>Last Update</th><th></th><th></th>
+    </thead>
+    <tbody>
+      <% @threads.each do |thread| %>
+      <tr>
+        <td><%= thread.title %></td>
+        <td><%= thread.description%></td>
+        <td><%= link_to thread.user.name, admin_user_path(thread.user_id) %></td>
+        <td><%= thread.updated_at %></td>
+        <td><%= link_to 'Comments', admin_thread_comments_path(thread.id) %></td>
+        <td><%= link_to 'Delete', admin_thread_path(thread.id), method: :delete, data: {confirm: 'Are you sure?'}%></td>
+      </tr>
+      <% end %>
+    <tbody>
+  </table>
+  <% else %>
+    <p>No threads for now</p>
+<% end %>

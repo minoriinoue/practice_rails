@@ -1,0 +1,27 @@
+<p>Admin page</p>
+<h2>Comments to <%= @thread_name %></h2>
+
+<% if @message.present? %>
+    <p><%= @message %></p>
+<% end %>
+
+<% if @comments.count != 0 %>
+<table>
+  <thead>
+    <th>Comment</th><th>User</th><th>Last Update</th><th></th><th></th><th></th>
+  </thead>
+  <tbody>
+    <% @comments.each do |comment| %>
+    <tr>
+      <td><%= comment.comment %></td>
+      <td><%= link_to comment.user.name, admin_user_path(comment.user_id) %></td>
+      <td><%= comment.updated_at %></td>
+      <td><%= link_to 'Delete', admin_thread_comment_path(thread_id: params[:thread_id], id: comment.id), method: :delete, data: {confirm: 'Are you sure?'} %></td>
+    </tr>
+    <% end %>
+  </tbody>
+</table>
+<% else %>
+  <p>No comments</p>
+<% end %>
+<p><%= link_to 'Go back to Thread List', admin_threads_path %></p>

@@ -1,0 +1,42 @@
+<h2>Name: <%= @user.name %></h2>
+
+<% if @message.present? %>
+  <%= @message %><br />
+<% end %>
+
+<% if @user.avatar.url.nil? %>
+  <p>No profile photo</p>
+  <% if current_user.id == @user.id %>
+    <%= form_for(@user, url: user_path(@user.id), method: 'PATCH') do |f| %>
+      <%= f.file_field :file_name %><br />
+      <%= f.submit "Upload photo"%>
+    <% end %>
+  <% end %>
+<% else %>
+    <%= image_tag(@user.avatar.url, size: '150x150') %><br>
+    <% if current_user.id == @user.id %>
+      <%= form_for(@user, url: user_path(@user.id), method: 'PATCH') do |f| %>
+        <%= f.file_field :file_name %><br />
+        <%= f.submit "Change photo"%>
+      <% end %>
+    <% end %>
+<% end %>
+
+<% if current_user.id == @user.id %>
+  <%= link_to 'Following User\'s thread', threads_path(status: 'following') %><br />
+<% else %>
+  <% if @follow.present? %>
+    <p>You are following this user.
+    <%= link_to 'Unfollow', follow_path(followee_id: @user.id, id: @follow.id), method: :delete %><br>
+    </p>
+  <% else %>
+    <p><%= link_to 'Follow', follows_path(follower_id: current_user.id, followee_id: @user.id), method: :post %><br></p>
+  <% end %>
+<% end %>
+<p>
+<%= link_to 'Followers', follows_path(status: 'followed', user_id: @user.id) %><br />
+<%= link_to 'Following', follows_path(status: 'following', user_id: @user.id) %><br />
+<%= link_to 'Favorites', favorites_path(user_id: @user.id) %><br />
+</p>
+
+<p><%= link_to 'Go back to Thread List', threads_path %></p>

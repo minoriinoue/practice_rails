@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Bb</title>
+  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+  <%= csrf_meta_tags %>
+</head>
+
+<% if user_signed_in? || admin_signed_in? %>
+  <nav class="navbar navbar-default">
+    <ul class="nav navbar-nav navbar-left">
+      <li><%= link_to 'Bb', threads_path, class: 'navbar-link' %></li>
+    </ul>
+    <ul class="nav navbar-nav navbar-right">
+      <% if user_signed_in? %>
+      <li><%=link_to 'Signed in as ' + current_user.name, user_path(current_user.id), class: 'navbar-link' %></li>
+      <li><%= link_to 'Edit Account', edit_user_registration_path, class: 'navbar-link' %></li>
+      <li><%= link_to 'Log out', destroy_user_session_path, method: :delete, class: 'navbar-link' %></li>
+      <% else %>
+      <li>Signed in as <%= current_admin.name %></li>
+      <li><%= link_to 'Edit Account', edit_admin_registration_path, class: 'navbar-link' %></li>
+      <li><%= link_to 'Log out', destroy_admin_session_path, method: :delete, class: 'navbar-link' %></li>
+      <% end %>
+    </ul>
+  </nav>
+
+  <body>
+    <div class="container">
+      <% flash.each do |key, value| %>
+        <%= content_tag(:div, value, class: "#{key}") %>
+      <% end %>
+    </div>
+    <div class="container">
+      <%= yield %>
+    </div>
+  </body>
+
+<% else %>
+  <div class="fluid-container">
+  <nav class="navbar navbar-default">
+    <ul class="nav navbar-nav navbar-left">
+      <li><%= link_to 'Bb', threads_path, class: 'navbar-link' %></li>
+    </ul>
+  </nav>
+  </div>
+
+  <body>
+    <div class="container">
+      <%= yield %>
+    </div>
+  </body>
+
+  <div class="container">
+    <p>Log in as user<br>
+    <%= link_to 'Sign up', new_user_registration_path %><br>
+    <%= link_to  'Log in', new_user_session_path %><br>
+    </p>
+  </div>
+
+  <div class="container">
+    <p>Log in as Admin<br>
+    <%= link_to 'Sign up', new_admin_registration_path %><br>
+    <%= link_to  'Log in', new_admin_session_path %><br>
+    </p>
+  </div>
+<% end %>
+</html>
